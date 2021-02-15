@@ -15,7 +15,7 @@ module Api
 				article = Article.new(article_params)
 
 				if article.save
-					render json: {status: 'SUCCESS', message:'Saved article with title #{article.title}', data:article}, status: :ok
+					render json: {status: 'SUCCESS', message:"Saved article with title #{article.title}", data:article}, status: :ok
 				else
 					render json: {status: 'ERROR', message:'Article not saved', data:article.errors}, status: :unprocessable_entity
 				end
