@@ -1,6 +1,6 @@
-class ApplicationController < ActionController::Base
+class ApplicationController < ActionController::API
 
-  #before_action :authenticate
+  before_action :authenticate
   attr_reader :current_token, :current_user
   private
 
@@ -17,14 +17,17 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate_token
-    authenticate_with_http_token do |token, options|
-      @token = nil
-      if AuthToken.valid?(token) && $redis.ttl(token) > 0
-        @token = token
-        $redis.expire(token, 20.minutes.to_i) # set TTL as constant
+    if request.headers["Authorization"].present?
+      @token = request.headers["Authorization"].split(" ").last
+      if AuthToken.valid?(@token) && $redis.ttl(@token) > 0
+        $redis.expire(@token, 20.minutes.to_i) # set TTL as constant
+
+      else
+      	raise "My Auth Error"
       end
-      @token
     end
+
+      @token    
   end
 
   def render_unauthorized

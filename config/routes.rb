@@ -6,4 +6,5 @@ Rails.application.routes.draw do
   		resources :signups
   	end
   end
+  resources :sessions
 end

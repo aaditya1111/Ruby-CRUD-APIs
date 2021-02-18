@@ -1,4 +1,5 @@
 class Api::V1::SignupsController < ApplicationController
+	skip_before_action :authenticate, only: :create
 	def create
 		user = Signup.new(signup_params)
 
@@ -12,7 +13,7 @@ class Api::V1::SignupsController < ApplicationController
 	private
 
 	def signup_params
-		params.permit(:email, :password_digest)
+		params.permit(:email, :password)
 	end
 end
 
