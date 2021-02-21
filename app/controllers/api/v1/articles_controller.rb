@@ -13,7 +13,7 @@ module Api
 
 			def create
 				article = Article.new(article_params)
-
+				puts article_params
 				if article.save
 					render json: {status: 'SUCCESS', message:"Saved article with title #{article.title}", data:article}, status: :ok
 				else
@@ -39,7 +39,7 @@ module Api
 			private
 
 			def article_params
-				params.permit(:title, :body)
+				params.permit(:title, :body, :author_id)
 			end
 		end
 	end
